@@ -1,0 +1,66 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.guild.inventory;
+
+/**
+ *
+ * @author 24001
+ */
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MagicInventoryItemTest {
+
+    public static void main(String[] args) {
+
+        System.out.println("=== MagicInventoryItem Test ===");
+
+        // Create objects using no-arg and parameterized constructors
+        MagicInventoryItem item1 = new MagicInventoryItem();
+        MagicInventoryItem item2 = new MagicInventoryItem("POTION01", 500);
+        MagicInventoryItem item3 = new MagicInventoryItem("SCROLL99", 1200); // will truncate to MAX_STOCK
+
+        System.out.println("Total items created: " + MagicInventoryItem.getTotalItems());
+
+        // test setStock() with valid and invalid values
+        try {
+            item1.setStock(300);
+            System.out.println("Item1 stock set to 300");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            item2.setStock(-10); // invalid
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        try {
+            item3.setStock(1200); // invalid
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // test calculateTotalStock()
+        List<MagicInventoryItem> itemList = new ArrayList<>();
+        itemList.add(item1);
+        itemList.add(item2);
+        itemList.add(item3);
+
+        Integer totalStock = MagicInventoryItem.calculateTotalStock(itemList);
+        System.out.println("Total stock in inventory: " + totalStock);
+
+        // Test empty list
+        List<MagicInventoryItem> emptyList = new ArrayList<>();
+        Integer emptyResult = MagicInventoryItem.calculateTotalStock(emptyList);
+        System.out.println("Total stock for empty list: " + emptyResult);
+
+        // verify total item tracking
+        System.out.println("Final total items count: " + MagicInventoryItem.getTotalItems());
+    }
+}
+
